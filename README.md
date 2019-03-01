@@ -18,6 +18,8 @@
 
 ​	
 
+即使破解了sign自行测试没问题，但生产还是得随机使用匿名ip获取数据，没测试过。
+
 - 请求地址
 
   https://h5api.m.taobao.com/h5/mtop.relationrecommend.wirelessrecommend.recommend/2.0/

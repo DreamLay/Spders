@@ -86,11 +86,14 @@ f434528deac7395a08033bae013a8f67
 taobaoSpider
     |__ __init__.py
     |__ cookies
-    |		|__..
+    |	|__..
     |__ responseJson
-    |		|__..
+    |	|__..
     |__ get_tb_cookies.py
     |__ get_tb.py
     |__ README.md
 ```
 
+
+
+Author: 赖俊元

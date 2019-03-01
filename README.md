@@ -5,23 +5,16 @@
 
 
 1. 查找实际请求地址提交参数，确定固定参数与可变参数
-
 2. 发现可变参数中主要为sign的规律难寻找，通过sign值格式可以基本确定是经过MD5编码
-
 3. 逐个查看所有请求过的js，发现包含sign算法的js
-4. 通过设置断点查看sign生成过程
-
-4. 实际是通过token、时间戳、appkey、data四个值组合并MD5编码	
-
-5. token通过js从cookies中得来，按照约定的算法生成sign，sign在mtop的请求中带
-
-6. mtop通过cookie中和token用同样的方式计算出sign，与请求的sign进行比较
-
-7. 检查通过将返回api的应答，失败提示“FAIL_SYS_ILLEGAL_ACCESS:: 非法请求”
-
-8. token有时效性，遇到失效返回json提示”令牌过期“，同时会写入新的token
-9. 关于cookie中的token的自我检查，由于token在cookie中是明文的，可能会被仿冒，在输出的cookie中包含一个用非对称密钥的公钥加密后的token, MTOP在每次请求时会先检查cookie中的token是否是由服务端分配出去的（利用加密后的token和私钥还原token，与回传的明文token比较）
-10. 对于token时效性可以通过另起程序如selenium在过期时重新获取cookies，爬虫只需去读取前者写入的文件
+4. <font color="#dd0000">通过设置断点查看sign生成过程</font>
+5. 实际是通过token、时间戳、appkey、data四个值组合并MD5编码	
+6. token通过js从cookies中得来，按照约定的算法生成sign，sign在mtop的请求中带
+7. mtop通过cookie中和token用同样的方式计算出sign，与请求的sign进行比较
+8. 检查通过将返回api的应答，失败提示“FAIL_SYS_ILLEGAL_ACCESS:: 非法请求”
+9. token有时效性，遇到失效返回json提示”令牌过期“，同时会写入新的token
+10. 关于cookie中的token的自我检查，由于token在cookie中是明文的，可能会被仿冒，在输出的cookie中包含一个用非对称密钥的公钥加密后的token, MTOP在每次请求时会先检查cookie中的token是否是由服务端分配出去的（利用加密后的token和私钥还原token，与回传的明文token比较）
+11. 对于token时效性可以通过另起程序如selenium在过期时重新获取cookies，爬虫只需去读取前者写入的文件
 
 ​	
 
@@ -62,7 +55,7 @@ f434528deac7395a08033bae013a8f67
 
   - appkey：一般是固定值
 
-  - data：一般是提交的参数
+  - data：一般是提交的参数 <font color="#dd0000">提交时需要编码</font>
 
   - *sign：通过md5将以上数值加密生成*
 
@@ -74,4 +67,30 @@ f434528deac7395a08033bae013a8f67
     import hashlib
     hashlib.md5(b'123').hexdigest() # python
     ```
+
+
+
+#### 环境
+
+语言：Python3
+
+必要库：requests、selenium
+
+系统：macosMojave，理论能运行在所有linux上
+
+运行：进入目录：python get_tb.py
+
+目录格式：
+
+```
+taobaoSpider
+    |__ __init__.py
+    |__ cookies
+    |		|__..
+    |__ responseJson
+    |		|__..
+    |__ get_tb_cookies.py
+    |__ get_tb.py
+    |__ README.md
+```
 
